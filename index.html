@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Simple Banking Dashboard</title>
+  </head>
+  <body>
+    <div class="toast" role="status" aria-live="polite"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <span class="brand__name">Banking Demo</span>
+      </div>
+      <p class="welcome">Sign in to your account</p>
+      <div class="session session--hidden">
+        <span class="avatar" aria-hidden="true">AK</span>
+        <button type="button" class="btn btn--ghost btn--logout">
+          Log out
+        </button>
+      </div>
+    </header>
+
+    <section class="login-screen">
+      <div class="login-card">
+        <h1 class="login-card__title">Simple Banking Dashboard</h1>
+        <p class="login-card__subtitle">
+          Frontend practice project — balances, transfers, and account actions
+          in vanilla JavaScript.
+        </p>
+
+        <form class="login" autocomplete="off">
+          <label class="field">
+            <span class="field__label">Username</span>
+            <input
+              type="text"
+              class="login__input login__input--user"
+              placeholder="e.g. ak"
+              required
+            />
+          </label>
+          <label class="field">
+            <span class="field__label">PIN</span>
+            <input
+              type="password"
+              inputmode="numeric"
+              maxlength="4"
+              class="login__input login__input--pin"
+              placeholder="••••"
+              required
+            />
+          </label>
+          <button type="submit" class="btn btn--primary login__btn">
+            Sign in
+          </button>
+        </form>
+
+        <aside class="demo-hint">
+          <p class="demo-hint__title">Demo accounts</p>
+          <ul class="demo-hint__list">
+            <li><code>ak</code> / <code>1111</code> — Anna Kowalska (PLN)</li>
+            <li><code>mr</code> / <code>2222</code> — Marcus Reed (EUR)</li>
+            <li><code>sc</code> / <code>3333</code> — Sofia Chen (USD)</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <main class="app app--hidden">
+      <section class="balance">
+        <div class="balance__info">
+          <p class="balance__label">Available balance</p>
+          <p class="balance__date">
+            As of <span class="date">—</span>
+          </p>
+        </div>
+        <p class="balance__value">0</p>
+      </section>
+
+      <section class="stats">
+        <article class="stat">
+          <p class="stat__label">Income</p>
+          <p class="stat__value summary__value--in">0</p>
+        </article>
+        <article class="stat">
+          <p class="stat__label">Expenses</p>
+          <p class="stat__value summary__value--out">0</p>
+        </article>
+        <article class="stat">
+          <p class="stat__label">Interest</p>
+          <p class="stat__value summary__value--interest">0</p>
+        </article>
+      </section>
+
+      <section class="movements">
+        <div class="movements__header">
+          <h2>Transactions</h2>
+          <div class="movements__controls">
+            <div class="filter" role="group" aria-label="Filter transactions">
+              <button
+                type="button"
+                class="filter__btn filter__btn--active"
+                data-filter="all"
+              >
+                All
+              </button>
+              <button type="button" class="filter__btn" data-filter="deposit">
+                In
+              </button>
+              <button
+                type="button"
+                class="filter__btn"
+                data-filter="withdrawal"
+              >
+                Out
+              </button>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sort">
+              By amount
+            </button>
+          </div>
+        </div>
+        <div class="movements__list"></div>
+      </section>
+
+      <aside class="panel">
+        <div class="operation operation--transfer">
+          <h2>Transfer</h2>
+          <form class="form form--transfer">
+            <label class="field">
+              <span class="field__label">To (username)</span>
+              <input type="text" class="form__input form__input--to" />
+            </label>
+            <label class="field">
+              <span class="field__label">Amount</span>
+              <input
+                type="number"
+                min="1"
+                step="any"
+                class="form__input form__input--amount"
+              />
+            </label>
+            <button type="submit" class="btn btn--secondary form__btn--transfer">
+              Send
+            </button>
+          </form>
+        </div>
+
+        <div class="operation operation--loan">
+          <h2>Request loan</h2>
+          <form class="form form--loan">
+            <label class="field">
+              <span class="field__label">Amount</span>
+              <input
+                type="number"
+                min="1"
+                step="1"
+                class="form__input form__input--loan-amount"
+              />
+            </label>
+            <button type="submit" class="btn btn--secondary form__btn--loan">
+              Request
+            </button>
+          </form>
+          <p class="operation__hint">
+            Approved if you already have a deposit of at least 10% of the loan.
+          </p>
+        </div>
+
+        <div class="operation operation--close">
+          <h2>Close account</h2>
+          <form class="form form--close">
+            <label class="field">
+              <span class="field__label">Username</span>
+              <input type="text" class="form__input form__input--user" />
+            </label>
+            <label class="field">
+              <span class="field__label">PIN</span>
+              <input
+                type="password"
+                maxlength="4"
+                class="form__input form__input--pin"
+              />
+            </label>
+            <button type="submit" class="btn btn--danger form__btn--close">
+              Close
+            </button>
+          </form>
+        </div>
+
+        <p class="logout-timer">
+          Auto logout in <span class="timer">05:00</span>
+        </p>
+      </aside>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
